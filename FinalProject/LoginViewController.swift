@@ -90,15 +90,22 @@ class LoginViewController: UIViewController {
                 print("로그인 실패: \(error.localizedDescription)")
             } else {
                 print("로그인 성공!")
-                // 다음 화면으로 이동 등
+                
+                guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let homeVC = storyboard.instantiateViewController(withIdentifier: "tabBarController")
+
+                let navController = UINavigationController(rootViewController: homeVC)
+                sceneDelegate.window?.rootViewController = navController
+                sceneDelegate.window?.makeKeyAndVisible()
             }
         }
     }
     
     @objc private func signupTapped() {
-        let signupVC = SignupViewController()
-        signupVC.modalPresentationStyle = .fullScreen
-        present(signupVC, animated: true)
-        // 또는 navigationController?.pushViewController(signupVC, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let signupVC = storyboard.instantiateViewController(withIdentifier: "signupVC")
+        self.present(signupVC, animated: true, completion: nil)
     }
 }

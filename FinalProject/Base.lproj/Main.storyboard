@@ -11,7 +11,7 @@
         <!--홈-->
         <scene sceneID="4yk-RH-XZp">
             <objects>
-                <viewController id="nwr-ec-EIA" customClass="HomeViewController" customModule="FinalProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeVC" id="nwr-ec-EIA" customClass="HomeViewController" customModule="FinalProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gkg-3d-bP2">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -27,7 +27,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="Bvm-mI-tfh">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="IAS-dq-zUd" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabBarController" automaticallyAdjustsScrollViewInsets="NO" id="IAS-dq-zUd" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Z95-s3-Keb">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -115,13 +115,14 @@
         <!--Signup View Controller-->
         <scene sceneID="UbR-Yu-Sp2">
             <objects>
-                <viewController id="R75-Fq-XqM" customClass="SignupViewController" customModule="FinalProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="signupVC" id="R75-Fq-XqM" customClass="SignupViewController" customModule="FinalProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WH3-Ff-UwO">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="kx6-Nm-xEa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="1Id-FW-qWN"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JE3-A6-5Ph" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -168,7 +169,7 @@
         <!--Login View Controller-->
         <scene sceneID="GR4-lS-c3n">
             <objects>
-                <viewController id="eG2-za-5BM" customClass="LoginViewController" customModule="FinalProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginVC" id="eG2-za-5BM" customClass="LoginViewController" customModule="FinalProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wV1-Uw-sEG">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
