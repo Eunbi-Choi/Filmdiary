@@ -14,6 +14,16 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = ColorTheme.background
+
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance 
+        
+        UITabBar.appearance().tintColor = ColorTheme.accent
+        
         view.backgroundColor = ColorTheme.background
         
         // 네비게이션 바 스타일링
