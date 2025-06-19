@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseCore
+import FirebaseFirestore
 
 class SignupViewController: UIViewController {
     
@@ -40,6 +41,7 @@ class SignupViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "이메일을 입력해주세요"
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -48,6 +50,7 @@ class SignupViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "비밀번호를 입력해주세요"
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -134,9 +137,24 @@ class SignupViewController: UIViewController {
             }
             if let result = result {
                 print(result)
+                
+                let db = Firestore.firestore()
+                let newDocRef = db.collection("users").document()
+                let userId = newDocRef.documentID
+                
+                let userData = [
+                    "uid": userId,
+                    "email": email
+                ]
+                
+                newDocRef.setData(userData){ error in
+                    if let error = error {
+                        print("저장 오류: \(error)")
+                    } else {
+                        print("저장 성공: \(userId)")
+                    }
+                }
             }
-            
         }
-        
     }
 }

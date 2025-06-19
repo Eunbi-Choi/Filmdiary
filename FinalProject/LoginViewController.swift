@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
         tf.borderStyle = .roundedRect
         tf.autocapitalizationType = .none
         tf.keyboardType = .emailAddress
+        tf.autocapitalizationType = .none
         return tf
     }()
     
@@ -24,6 +25,7 @@ class LoginViewController: UIViewController {
         tf.placeholder = "비밀번호"
         tf.borderStyle = .roundedRect
         tf.isSecureTextEntry = true
+        tf.autocapitalizationType = .none
         return tf
     }()
     
@@ -84,7 +86,7 @@ class LoginViewController: UIViewController {
     @objc private func loginTapped() {
         let email = emailTextField.text ?? ""
         let password = passwordTextField.text ?? ""
-        
+
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 print("로그인 실패: \(error.localizedDescription)")
