@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class MovieDetailViewController: UIViewController {
     
@@ -84,6 +86,7 @@ class MovieDetailViewController: UIViewController {
         button.layer.shadowOffset = CGSize(width: 0, height: 2)
         button.layer.shadowOpacity = 0.3
         button.layer.shadowRadius = 4
+        button.addTarget(self, action: #selector(didTapWishButton), for: .touchUpInside)
         return button
     }()
     
@@ -129,6 +132,7 @@ class MovieDetailViewController: UIViewController {
         
         setupUI()
         configureWithMovie()
+        wishButton.addTarget(self, action: #selector(didTapWishButton), for: .touchUpInside)
     }
     
     private func setupUI() {
@@ -233,5 +237,24 @@ class MovieDetailViewController: UIViewController {
                 self?.posterImageView.image = UIImage(data: data)
             }
         }.resume()
+    }
+    
+    @objc private func didTapWishButton() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        print(uid)
+        let db = Firestore.firestore()
+        
+        db.collection("users").document(uid).collection("wishList").document(titleLabel.text ?? "").setData(["title": titleLabel.text ?? ""])
+        
+        let alert = UIAlertController(title: nil, message: "위시리스트에 추가되었습니다.", preferredStyle: .alert)
+
+        // 1~2초 뒤에 자동으로 닫히게
+        self.present(alert, animated: true)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            alert.dismiss(animated: true, completion: nil)
+        }
+        
+        NotificationCenter.default.post(name: NSNotification.Name("WishListUpdated"), object: nil)
     }
 }

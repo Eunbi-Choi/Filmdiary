@@ -139,8 +139,8 @@ class SignupViewController: UIViewController {
                 print(result)
                 
                 let db = Firestore.firestore()
-                let newDocRef = db.collection("users").document()
-                let userId = newDocRef.documentID
+                let userId = result.user.uid
+                let newDocRef = db.collection("users").document(userId)
                 
                 let userData = [
                     "uid": userId,
