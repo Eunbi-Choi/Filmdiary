@@ -32,12 +32,13 @@ class FeedViewController: UIViewController {
         
         view.backgroundColor = ColorTheme.background
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeed), name: NSNotification.Name("FeedUpdated"), object: nil)
-
+        
         view.backgroundColor = .systemBackground
         title = "피드"
         
         setupUI()
         fetchMyDiaries()
+        fetchAllDiaries()
         
         segmentedControl.addTarget(self, action: #selector(segmentedChanged), for: .valueChanged)
         tableView.dataSource = self
@@ -109,6 +110,7 @@ class FeedViewController: UIViewController {
     private func fetchAllDiaries() {
         allDiaries = []
         let db = Firestore.firestore()
+        
         db.collection("filmDiaries").getDocuments { [weak self] (snapshot, error) in
             guard let self = self else { return }
             if let error = error {
@@ -116,6 +118,7 @@ class FeedViewController: UIViewController {
                 return
             }
             guard let userDocs = snapshot?.documents else { return }
+            print("userDocs count:", userDocs.count)
             let group = DispatchGroup()
             var tempDiaries: [Diary] = []
             for userDoc in userDocs {
@@ -123,8 +126,9 @@ class FeedViewController: UIViewController {
                 group.enter()
                 db.collection("filmDiaries").document(uid).collection("myDiary").getDocuments { (diarySnapshot, error) in
                     if let diaryDocs = diarySnapshot?.documents {
+                        print("diaryDocs count:", diaryDocs.count)
                         for doc in diaryDocs {
-                            if let diary = Diary(dictionary: doc.data()), diary.privacy == 1 {
+                            if let diary = Diary(dictionary: doc.data()), diary.privacy == 1 { // 전체공개만
                                 tempDiaries.append(diary)
                             }
                         }
@@ -135,6 +139,7 @@ class FeedViewController: UIViewController {
             group.notify(queue: .main) {
                 self.allDiaries = tempDiaries
                 self.tableView.reloadData()
+                print("전체공개 tempDiaries count:", tempDiaries.count)
             }
         }
     }
@@ -319,7 +324,7 @@ class DiaryCell: UITableViewCell {
             let label = PaddingLabel()
             label.text = tag
             label.font = .systemFont(ofSize: 12)
-            label.textColor = ColorTheme.accent
+            label.textColor = ColorTheme.text
             label.backgroundColor = ColorTheme.main
             label.layer.cornerRadius = 10
             label.clipsToBounds = true

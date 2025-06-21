@@ -35,6 +35,20 @@ class DiaryDetailViewController: UIViewController {
     private var diaryOwnerUid: String = ""
     private var diaryId: String = ""
     
+    private let authorLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        label.textColor = ColorTheme.accent
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private let dividerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ColorTheme.secondaryText.withAlphaComponent(0.15)
+        return view
+    }()
+    
     init(diary: Diary) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
@@ -67,12 +81,18 @@ class DiaryDetailViewController: UIViewController {
         cardView.layer.shadowRadius = 8
         cardView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(cardView)
+        // 기록 섹션 타이틀/구분선 추가
+        contentView.addSubview(dividerView)
+        cardView.addSubview(authorLabel)
         [posterImageView, titleLabel, nicknameLabel, dateLabel, tagStackView, diaryTitleLabel, diaryContentLabel, quoteLabel].forEach {
             cardView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        // 댓글 섹션 타이틀 추가
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        dividerView.translatesAutoresizingMaskIntoConstraints = false
+        authorLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -87,10 +107,12 @@ class DiaryDetailViewController: UIViewController {
             cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             cardView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -24),
-            posterImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 24),
+            authorLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 18),
+            authorLabel.centerXAnchor.constraint(equalTo: cardView.centerXAnchor),
+            posterImageView.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 8),
             posterImageView.centerXAnchor.constraint(equalTo: cardView.centerXAnchor),
-            posterImageView.widthAnchor.constraint(equalToConstant: 120),
-            posterImageView.heightAnchor.constraint(equalToConstant: 180),
+            posterImageView.widthAnchor.constraint(equalToConstant: 90),
+            posterImageView.heightAnchor.constraint(equalToConstant: 135),
             titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 16),
             titleLabel.centerXAnchor.constraint(equalTo: cardView.centerXAnchor),
             nicknameLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
@@ -133,6 +155,7 @@ class DiaryDetailViewController: UIViewController {
         titleLabel.text = diary.movieTitle
         titleLabel.font = .systemFont(ofSize: 22, weight: .bold)
         titleLabel.textColor = ColorTheme.text
+        authorLabel.text = "글쓴이: @" + diary.nickname
         nicknameLabel.text = "@" + diary.nickname
         nicknameLabel.font = .systemFont(ofSize: 15, weight: .semibold)
         nicknameLabel.textColor = ColorTheme.accent
@@ -154,7 +177,7 @@ class DiaryDetailViewController: UIViewController {
             let label = PaddingLabel()
             label.text = tag
             label.font = .systemFont(ofSize: 12)
-            label.textColor = ColorTheme.accent
+            label.textColor = ColorTheme.text
             label.backgroundColor = ColorTheme.main
             label.layer.cornerRadius = 10
             label.clipsToBounds = true
@@ -219,8 +242,8 @@ class DiaryDetailViewController: UIViewController {
         view.addSubview(commentTableView)
         commentTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            commentTableView.topAnchor.constraint(equalTo: quoteLabel.bottomAnchor, constant: 24),
-            commentTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            commentTableView.topAnchor.constraint(equalTo: quoteLabel.bottomAnchor, constant: 50),
+            commentTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             commentTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             commentTableView.bottomAnchor.constraint(equalTo: commentInputStack.topAnchor, constant: -8)
         ])

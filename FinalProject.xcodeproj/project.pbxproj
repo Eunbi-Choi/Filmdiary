@@ -13,6 +13,7 @@
 		93A2F5EF2E03345A00DD9619 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5EE2E03345A00DD9619 /* ColorTheme.swift */; };
 		93A2F5F12E0337C000DD9619 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5F02E0337C000DD9619 /* FeedViewController.swift */; };
 		93A2F5F32E033A1500DD9619 /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5F22E033A1500DD9619 /* MypageViewController.swift */; };
+		93A729412E06FD0E00EFA39A /* JTAppleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 93A729402E06FD0E00EFA39A /* JTAppleCalendar */; };
 		93AECC472E0693B4007E3DC6 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AECC462E0693B4007E3DC6 /* WriteViewController.swift */; };
 		93AECC492E06BDA0007E3DC6 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AECC482E06BDA0007E3DC6 /* DiaryDetailViewController.swift */; };
 		93AF400D2E03FC8900143B98 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93AF400C2E03FC8900143B98 /* GoogleService-Info.plist */; };
@@ -65,6 +66,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93AF401F2E03FE7900143B98 /* FirebaseAnalyticsSwift in Frameworks */,
+				93A729412E06FD0E00EFA39A /* JTAppleCalendar in Frameworks */,
 				93AF401B2E03FE7900143B98 /* FirebaseAnalytics in Frameworks */,
 				93AF401D2E03FE7900143B98 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				93AF40232E03FE7900143B98 /* FirebaseAppCheck in Frameworks */,
@@ -152,6 +154,7 @@
 				93AF40222E03FE7900143B98 /* FirebaseAppCheck */,
 				93AF40242E03FE7900143B98 /* FirebaseFirestore */,
 				93AF40282E0400F000143B98 /* FirebaseAuth */,
+				93A729402E06FD0E00EFA39A /* JTAppleCalendar */,
 			);
 			productName = FinalProject;
 			productReference = 93BB4D092E01EC9F000D42C2 /* FinalProject.app */;
@@ -183,6 +186,7 @@
 			mainGroup = 93BB4D002E01EC9F000D42C2;
 			packageReferences = (
 				93AF40192E03FE7900143B98 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				93A7293F2E06FD0E00EFA39A /* XCRemoteSwiftPackageReference "JTAppleCalendar" */,
 			);
 			productRefGroup = 93BB4D0A2E01EC9F000D42C2 /* Products */;
 			projectDirPath = "";
@@ -449,6 +453,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		93A7293F2E06FD0E00EFA39A /* XCRemoteSwiftPackageReference "JTAppleCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/patchthecode/JTAppleCalendar";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.5;
+			};
+		};
 		93AF40192E03FE7900143B98 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -460,6 +472,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		93A729402E06FD0E00EFA39A /* JTAppleCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 93A7293F2E06FD0E00EFA39A /* XCRemoteSwiftPackageReference "JTAppleCalendar" */;
+			productName = JTAppleCalendar;
+		};
 		93AF401A2E03FE7900143B98 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 93AF40192E03FE7900143B98 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
