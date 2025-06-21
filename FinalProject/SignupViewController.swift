@@ -77,10 +77,11 @@ class SignupViewController: UIViewController {
         super.viewDidLoad()
         
         title = "회원가입"
-        view.backgroundColor = .white
+        view.backgroundColor = ColorTheme.background
         addViews()
         applyConstraints()
         addTarget()
+        styleUI()
     }
     
     func addViews() {
@@ -168,5 +169,36 @@ class SignupViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func styleUI() {
+        titleLabel.font = .systemFont(ofSize: 32, weight: .bold)
+        titleLabel.textColor = ColorTheme.text
+        emailTextField.backgroundColor = ColorTheme.cardBackground
+        emailTextField.textColor = ColorTheme.text
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "이메일을 입력해주세요", attributes: [.foregroundColor: ColorTheme.secondaryText])
+        emailTextField.layer.borderColor = ColorTheme.accent.cgColor
+        emailTextField.layer.borderWidth = 1
+        emailTextField.layer.cornerRadius = 10
+        pwTextField.backgroundColor = ColorTheme.cardBackground
+        pwTextField.textColor = ColorTheme.text
+        pwTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호를 입력해주세요", attributes: [.foregroundColor: ColorTheme.secondaryText])
+        pwTextField.layer.borderColor = ColorTheme.accent.cgColor
+        pwTextField.layer.borderWidth = 1
+        pwTextField.layer.cornerRadius = 10
+        nicknameTextField.backgroundColor = ColorTheme.cardBackground
+        nicknameTextField.textColor = ColorTheme.text
+        nicknameTextField.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해주세요", attributes: [.foregroundColor: ColorTheme.secondaryText])
+        nicknameTextField.layer.borderColor = ColorTheme.accent.cgColor
+        nicknameTextField.layer.borderWidth = 1
+        nicknameTextField.layer.cornerRadius = 10
+        joinBtn.backgroundColor = ColorTheme.main
+        joinBtn.setTitleColor(ColorTheme.text, for: .normal)
+        joinBtn.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
+        joinBtn.layer.cornerRadius = 12
+        joinBtn.layer.shadowColor = ColorTheme.accent.cgColor
+        joinBtn.layer.shadowOffset = CGSize(width: 0, height: 2)
+        joinBtn.layer.shadowOpacity = 0.15
+        joinBtn.layer.shadowRadius = 4
     }
 }

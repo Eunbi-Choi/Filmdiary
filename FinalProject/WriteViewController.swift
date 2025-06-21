@@ -428,6 +428,8 @@ class WriteViewController: UIViewController {
                             DispatchQueue.main.async {
                                 self.navigationController?.popViewController(animated: true)
                             }
+                            
+                            NotificationCenter.default.post(name: NSNotification.Name("FeedUpdated"), object: nil)
                         }
                     }
                 

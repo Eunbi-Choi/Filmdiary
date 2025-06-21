@@ -29,6 +29,9 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFeed), name: NSNotification.Name("FeedUpdated"), object: nil)
+
         view.backgroundColor = .systemBackground
         title = "피드"
         
@@ -38,6 +41,9 @@ class FeedViewController: UIViewController {
         segmentedControl.addTarget(self, action: #selector(segmentedChanged), for: .valueChanged)
         tableView.dataSource = self
         tableView.delegate = self
+    }
+    @objc private func updateFeed() {
+        tableView.reloadData()
     }
     
     private func setupUI() {
@@ -101,7 +107,7 @@ class FeedViewController: UIViewController {
                 db.collection("filmDiaries").document(uid).collection("myDiary").getDocuments { (diarySnapshot, error) in
                     if let diaryDocs = diarySnapshot?.documents {
                         for doc in diaryDocs {
-                            if let diary = Diary(dictionary: doc.data()), diary.privacy == 2 {
+                            if let diary = Diary(dictionary: doc.data()), diary.privacy == 1 {
                                 tempDiaries.append(diary)
                             }
                         }
@@ -134,7 +140,7 @@ extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
         let diary: Diary
         if segmentedControl.selectedSegmentIndex == 0 {
             diary = myDiaries[indexPath.row]
-            cell.configure(with: diary, showNickname: false)
+            cell.configure(with: diary, showNickname: true)
         } else {
             diary = allDiaries[indexPath.row]
             cell.configure(with: diary, showNickname: true)
@@ -144,7 +150,14 @@ extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        // 상세보기 등 추후 구현
+        let diary: Diary
+        if segmentedControl.selectedSegmentIndex == 0 {
+            diary = myDiaries[indexPath.row]
+        } else {
+            diary = allDiaries[indexPath.row]
+        }
+        let detailVC = DiaryDetailViewController(diary: diary)
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 

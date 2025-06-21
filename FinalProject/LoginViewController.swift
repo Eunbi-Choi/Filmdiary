@@ -49,7 +49,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = ColorTheme.background
         setupUI()
         loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         signupButton.addTarget(self, action: #selector(signupTapped), for: .touchUpInside)
@@ -60,9 +60,40 @@ class LoginViewController: UIViewController {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
+        emailTextField.backgroundColor = ColorTheme.cardBackground
+        emailTextField.textColor = ColorTheme.text
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "이메일", attributes: [.foregroundColor: ColorTheme.secondaryText])
+        emailTextField.layer.borderColor = ColorTheme.accent.cgColor
+        emailTextField.layer.borderWidth = 1
+        emailTextField.layer.cornerRadius = 10
+        passwordTextField.backgroundColor = ColorTheme.cardBackground
+        passwordTextField.textColor = ColorTheme.text
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호", attributes: [.foregroundColor: ColorTheme.secondaryText])
+        passwordTextField.layer.borderColor = ColorTheme.accent.cgColor
+        passwordTextField.layer.borderWidth = 1
+        passwordTextField.layer.cornerRadius = 10
+        loginButton.backgroundColor = ColorTheme.main
+        loginButton.setTitleColor(ColorTheme.text, for: .normal)
+        loginButton.layer.cornerRadius = 12
+        loginButton.layer.shadowColor = ColorTheme.accent.cgColor
+        loginButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        loginButton.layer.shadowOpacity = 0.15
+        loginButton.layer.shadowRadius = 4
+        signupButton.setTitleColor(ColorTheme.accent, for: .normal)
+        signupButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        signupButton.backgroundColor = .clear
+        signupButton.layer.cornerRadius = 8
+        let titleLabel = UILabel()
+        titleLabel.text = "로그인"
+        titleLabel.font = .systemFont(ofSize: 32, weight: .bold)
+        titleLabel.textColor = ColorTheme.text
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emailTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
             emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             emailTextField.heightAnchor.constraint(equalToConstant: 44),
