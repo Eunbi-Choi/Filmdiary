@@ -30,6 +30,7 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = ColorTheme.background
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeed), name: NSNotification.Name("FeedUpdated"), object: nil)
 
         view.backgroundColor = .systemBackground
@@ -52,12 +53,28 @@ class FeedViewController: UIViewController {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
+        segmentedControl.backgroundColor = ColorTheme.cardBackground
+        segmentedControl.selectedSegmentTintColor = ColorTheme.main
+        let normalAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: ColorTheme.secondaryText,
+            .font: UIFont.systemFont(ofSize: 16, weight: .medium)
+        ]
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: ColorTheme.text,
+            .font: UIFont.systemFont(ofSize: 17, weight: .bold)
+        ]
+        segmentedControl.setTitleTextAttributes(normalAttributes, for: .normal)
+        segmentedControl.setTitleTextAttributes(selectedAttributes, for: .selected)
+        segmentedControl.layer.cornerRadius = 16
+        segmentedControl.clipsToBounds = true
+        
+        tableView.backgroundColor = .clear
         NSLayoutConstraint.activate([
-            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
-            tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 12),
+            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
+            segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            segmentedControl.heightAnchor.constraint(equalToConstant: 40),
+            tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 18),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -188,6 +205,16 @@ struct Diary {
 
 // MARK: - DiaryCell
 class DiaryCell: UITableViewCell {
+    private let cardView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ColorTheme.cardBackground
+        view.layer.cornerRadius = 18
+        view.layer.shadowColor = ColorTheme.text.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowOpacity = 0.08
+        view.layer.shadowRadius = 8
+        return view
+    }()
     private let posterImageView = UIImageView()
     private let titleLabel = UILabel()
     private let dateLabel = UILabel()
@@ -212,51 +239,54 @@ class DiaryCell: UITableViewCell {
     }
     
     private func setupCell() {
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
+        cardView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(cardView)
         posterImageView.contentMode = .scaleAspectFill
         posterImageView.clipsToBounds = true
-        posterImageView.layer.cornerRadius = 8
+        posterImageView.layer.cornerRadius = 10
+        posterImageView.backgroundColor = ColorTheme.main
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = .systemFont(ofSize: 16, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
+        titleLabel.textColor = ColorTheme.text
         dateLabel.font = .systemFont(ofSize: 13)
-        dateLabel.textColor = .secondaryLabel
+        dateLabel.textColor = ColorTheme.secondaryText
         diaryTitleLabel.font = .systemFont(ofSize: 15)
-        diaryTitleLabel.textColor = .label
+        diaryTitleLabel.textColor = ColorTheme.text
         nicknameLabel.font = .systemFont(ofSize: 13, weight: .semibold)
-        nicknameLabel.textColor = .systemBlue
+        nicknameLabel.textColor = ColorTheme.accent
         nicknameLabel.isHidden = true
         tagStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         [posterImageView, titleLabel, dateLabel, diaryTitleLabel, nicknameLabel, tagStackView].forEach {
-            contentView.addSubview($0)
+            cardView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
         NSLayoutConstraint.activate([
-            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            cardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            posterImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 12),
+            posterImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 16),
+            posterImageView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -16),
             posterImageView.widthAnchor.constraint(equalToConstant: 60),
             posterImageView.heightAnchor.constraint(equalToConstant: 80),
-            
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 18),
+            titleLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 18),
             titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 12),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            
+            titleLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -12),
             nicknameLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             nicknameLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 12),
-            
             dateLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 2),
             dateLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 12),
-            
             tagStackView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 4),
             tagStackView.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 12),
-            tagStackView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -12),
+            tagStackView.trailingAnchor.constraint(lessThanOrEqualTo: cardView.trailingAnchor, constant: -12),
             tagStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
-            
             diaryTitleLabel.topAnchor.constraint(equalTo: tagStackView.bottomAnchor, constant: 6),
             diaryTitleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 12),
-            diaryTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            diaryTitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10)
+            diaryTitleLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -12),
+            diaryTitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: cardView.bottomAnchor, constant: -10)
         ])
     }
     
@@ -289,8 +319,8 @@ class DiaryCell: UITableViewCell {
             let label = PaddingLabel()
             label.text = tag
             label.font = .systemFont(ofSize: 12)
-            label.textColor = .white
-            label.backgroundColor = .systemBlue
+            label.textColor = ColorTheme.accent
+            label.backgroundColor = ColorTheme.main
             label.layer.cornerRadius = 10
             label.clipsToBounds = true
             label.textAlignment = .center
