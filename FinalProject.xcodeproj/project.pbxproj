@@ -13,6 +13,7 @@
 		93A2F5EF2E03345A00DD9619 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5EE2E03345A00DD9619 /* ColorTheme.swift */; };
 		93A2F5F12E0337C000DD9619 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5F02E0337C000DD9619 /* FeedViewController.swift */; };
 		93A2F5F32E033A1500DD9619 /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5F22E033A1500DD9619 /* MypageViewController.swift */; };
+		93AECC472E0693B4007E3DC6 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AECC462E0693B4007E3DC6 /* WriteViewController.swift */; };
 		93AF400D2E03FC8900143B98 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93AF400C2E03FC8900143B98 /* GoogleService-Info.plist */; };
 		93AF401B2E03FE7900143B98 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 93AF401A2E03FE7900143B98 /* FirebaseAnalytics */; };
 		93AF401D2E03FE7900143B98 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 93AF401C2E03FE7900143B98 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -40,6 +41,7 @@
 		93A2F5EE2E03345A00DD9619 /* ColorTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		93A2F5F02E0337C000DD9619 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		93A2F5F22E033A1500DD9619 /* MypageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewController.swift; sourceTree = "<group>"; };
+		93AECC462E0693B4007E3DC6 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		93AF400C2E03FC8900143B98 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		93AF40262E03FFA900143B98 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		93AF402A2E04042E00143B98 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				93A2F5F22E033A1500DD9619 /* MypageViewController.swift */,
 				93AF40262E03FFA900143B98 /* LoginViewController.swift */,
 				93AF402A2E04042E00143B98 /* SignupViewController.swift */,
+				93AECC462E0693B4007E3DC6 /* WriteViewController.swift */,
 			);
 			path = FinalProject;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				93A2F5F12E0337C000DD9619 /* FeedViewController.swift in Sources */,
 				93BB4D112E01EC9F000D42C2 /* HomeViewController.swift in Sources */,
 				93BB4D0D2E01EC9F000D42C2 /* AppDelegate.swift in Sources */,
+				93AECC472E0693B4007E3DC6 /* WriteViewController.swift in Sources */,
 				93BB4D0F2E01EC9F000D42C2 /* SceneDelegate.swift in Sources */,
 				93A2F5EB2E03137D00DD9619 /* MovieDetailViewController.swift in Sources */,
 				93B8F8CA2E02990E002AFB58 /* APICaller.swift in Sources */,

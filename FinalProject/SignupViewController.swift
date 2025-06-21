@@ -54,6 +54,15 @@ class SignupViewController: UIViewController {
         return textField
     }()
     
+    var nicknameTextField: UITextField = {
+        var textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "닉네임을 입력해주세요"
+        textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
+        return textField
+    }()
+    
     var joinBtn: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -80,6 +89,7 @@ class SignupViewController: UIViewController {
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(emailTextField)
         stackView.addArrangedSubview(pwTextField)
+        stackView.addArrangedSubview(nicknameTextField)
         stackView.addArrangedSubview(joinBtn)
     }
     
@@ -130,6 +140,7 @@ class SignupViewController: UIViewController {
     func createUser() {
         guard let email = emailTextField.text else { return }
         guard let pw = pwTextField.text else { return }
+        guard let nickname = nicknameTextField.text else { return }
         
         Auth.auth().createUser(withEmail: email, password: pw) { result, error in
             if let error = error {
@@ -144,7 +155,8 @@ class SignupViewController: UIViewController {
                 
                 let userData = [
                     "uid": userId,
-                    "email": email
+                    "email": email,
+                    "nickname": nickname
                 ]
                 
                 newDocRef.setData(userData){ error in

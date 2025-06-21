@@ -104,6 +104,7 @@ class MovieDetailViewController: UIViewController {
         button.layer.shadowOffset = CGSize(width: 0, height: 2)
         button.layer.shadowOpacity = 0.1
         button.layer.shadowRadius = 4
+        button.addTarget(self, action: #selector(didTapRecordButton), for: .touchUpInside)
         return button
     }()
     
@@ -256,5 +257,11 @@ class MovieDetailViewController: UIViewController {
         }
         
         NotificationCenter.default.post(name: NSNotification.Name("WishListUpdated"), object: nil)
+    }
+    
+    @objc private func didTapRecordButton() {
+        let writeVC = WriteViewController()
+        writeVC.movie = self.movie
+        navigationController?.pushViewController(writeVC, animated: true)
     }
 }
