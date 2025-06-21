@@ -38,7 +38,6 @@ class FeedViewController: UIViewController {
         
         setupUI()
         fetchMyDiaries()
-        fetchAllDiaries()
         
         segmentedControl.addTarget(self, action: #selector(segmentedChanged), for: .valueChanged)
         tableView.dataSource = self
@@ -93,25 +92,37 @@ class FeedViewController: UIViewController {
     private func fetchMyDiaries() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let db = Firestore.firestore()
-        db.collection("filmDiaries").document(uid).collection("myDiary").getDocuments { [weak self] (snapshot, error) in
-            guard let self = self else { return }
-            if let error = error {
-                print("내 기록 불러오기 실패: \(error.localizedDescription)")
-                return
-            }
-            guard let documents = snapshot?.documents else { return }
-            self.myDiaries = documents.compactMap { Diary(dictionary: $0.data()) }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+        
+        db.collection("users").document(uid).getDocument { document, error in
+            if let document = document, document.exists {
+                let nickname = document.get("nickname") as? String
+                
+                db.collection("filmDiaries").document(nickname ?? "").collection("myDiary").getDocuments { [weak self] (snapshot, error) in
+                    guard let self = self else { return }
+                    if let error = error {
+                        print("내 기록 불러오기 실패: \(error.localizedDescription)")
+                        return
+                    }
+                    guard let documents = snapshot?.documents else { return }
+                    self.myDiaries = documents.compactMap { Diary(dictionary: $0.data()) }
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+                
+                
+            } else {
+                print("❌ 문서를 찾을 수 없거나 오류 발생: \(error?.localizedDescription ?? "알 수 없는 오류")")
             }
         }
     }
     
     private func fetchAllDiaries() {
+        print("함수 시작")
         allDiaries = []
         let db = Firestore.firestore()
         
-        db.collection("filmDiaries").getDocuments { [weak self] (snapshot, error) in
+        db.collection("filmDiaries").getDocuments() { [weak self] (snapshot, error) in
             guard let self = self else { return }
             if let error = error {
                 print("전체 기록 불러오기 실패: \(error.localizedDescription)")
@@ -128,7 +139,7 @@ class FeedViewController: UIViewController {
                     if let diaryDocs = diarySnapshot?.documents {
                         print("diaryDocs count:", diaryDocs.count)
                         for doc in diaryDocs {
-                            if let diary = Diary(dictionary: doc.data()), diary.privacy == 1 { // 전체공개만
+                            if let diary = Diary(dictionary: doc.data()), diary.privacy == 1 {
                                 tempDiaries.append(diary)
                             }
                         }

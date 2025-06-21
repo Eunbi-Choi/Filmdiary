@@ -407,7 +407,7 @@ class WriteViewController: UIViewController {
             if let document = document, document.exists {
                 let nickname = document.get("nickname") as? String ?? ""
                 
-                db.collection("filmDiaries").document(uid)
+                db.collection("filmDiaries").document(nickname)
                     .collection("myDiary").document(self.movieTitleLabel.text ?? "")
                     .setData([
                         "nickname": nickname,
