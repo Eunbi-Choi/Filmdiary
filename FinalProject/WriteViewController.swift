@@ -67,18 +67,46 @@ class WriteViewController: UIViewController {
     // 2. Emotion Tags
     private let emotionSectionLabel: UILabel = {
         let label = UILabel()
-        label.text = "🎭 감정 태그"
+        label.text = "감상 키워드"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
         return label
     }()
     
+    private let exampleStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 8
+        stack.alignment = .leading
+        return stack
+    }()
+    
+    private let emotionInputField: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "감정 키워드 입력"
+        tf.font = .systemFont(ofSize: 15)
+        tf.borderStyle = .roundedRect
+        return tf
+    }()
+    
+    private let addEmotionButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setTitle("추가", for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
+        btn.backgroundColor = .systemGray5
+        btn.setTitleColor(.label, for: .normal)
+        btn.layer.cornerRadius = 8
+        return btn
+    }()
+    
     private let emotionStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 12
-        stackView.distribution = .fillEqually
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.alignment = .leading
         return stackView
     }()
+    
+    private var emotionTags: [String] = []
     
     // 3. Photo Attachment
     private let photoSectionLabel: UILabel = {
@@ -154,7 +182,7 @@ class WriteViewController: UIViewController {
     
     // 6. Controls
     private let privacyControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["나만 보기", "친구 공개", "전체 공개"])
+        let control = UISegmentedControl(items: ["나만 보기", "전체 공개"])
         control.selectedSegmentIndex = 0
         return control
     }()
@@ -170,6 +198,9 @@ class WriteViewController: UIViewController {
         return button
     }()
     
+    // 예시 키워드
+    private let exampleKeywords = ["잔잔한", "힐링", "슬픈", "행복한", "OST 굿"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -177,9 +208,10 @@ class WriteViewController: UIViewController {
         
         setupUI()
         configureWithMovie()
-        //setupEmotionButtons()
         
         diaryTextView.delegate = self
+        
+        addEmotionButton.addTarget(self, action: #selector(addEmotionTag), for: .touchUpInside)
     }
     
     private func configureWithMovie() {
@@ -201,25 +233,25 @@ class WriteViewController: UIViewController {
         }
     }
     
-//    private func setupEmotionButtons() {
-//        let emotions = ["🧡 감동적", "🤯 충격", "🤔 생각 많음", "😂 웃김"]
-//        for emotion in emotions {
-//            let button = UIButton(type: .system)
-//            button.setTitle(emotion, for: .normal)
-//            button.titleLabel?.font = .systemFont(ofSize: 14)
-//            button.backgroundColor = .systemGray5
-//            button.setTitleColor(.label, for: .normal)
-//            button.layer.cornerRadius = 15
-//            button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
-//            emotionStackView.addArrangedSubview(button)
-//        }
-//    }
+    private func setupEmotionButtons() {
+        let emotions = ["🧡 감동적", "🤯 충격", "🤔 생각 많음", "😂 웃김"]
+        for emotion in emotions {
+            let button = UIButton(type: .system)
+            button.setTitle(emotion, for: .normal)
+            button.titleLabel?.font = .systemFont(ofSize: 14)
+            button.backgroundColor = .systemGray5
+            button.setTitleColor(.label, for: .normal)
+            button.layer.cornerRadius = 15
+            button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+            emotionStackView.addArrangedSubview(button)
+        }
+    }
     
     private func setupUI() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        [movieInfoCardView, emotionSectionLabel, emotionStackView, photoSectionLabel, addPhotoButton, attachedImageView, diarySectionLabel, diaryTitleField, diaryTextView, quoteSectionLabel, quoteTextView, privacyControl, saveButton].forEach {
+        [movieInfoCardView, emotionSectionLabel, exampleStackView, emotionInputField, addEmotionButton, emotionStackView, photoSectionLabel, addPhotoButton, attachedImageView, diarySectionLabel, diaryTitleField, diaryTextView, quoteSectionLabel, quoteTextView, privacyControl, saveButton].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -274,10 +306,23 @@ class WriteViewController: UIViewController {
             emotionSectionLabel.topAnchor.constraint(equalTo: movieInfoCardView.bottomAnchor, constant: 30),
             emotionSectionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
-            emotionStackView.topAnchor.constraint(equalTo: emotionSectionLabel.bottomAnchor, constant: 12),
+            exampleStackView.topAnchor.constraint(equalTo: emotionSectionLabel.bottomAnchor, constant: 8),
+            exampleStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            exampleStackView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -20),
+            
+            emotionInputField.topAnchor.constraint(equalTo: exampleStackView.bottomAnchor, constant: 8),
+            emotionInputField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            emotionInputField.widthAnchor.constraint(equalToConstant: 140),
+            emotionInputField.heightAnchor.constraint(equalToConstant: 36),
+            
+            addEmotionButton.centerYAnchor.constraint(equalTo: emotionInputField.centerYAnchor),
+            addEmotionButton.leadingAnchor.constraint(equalTo: emotionInputField.trailingAnchor, constant: 8),
+            addEmotionButton.widthAnchor.constraint(equalToConstant: 60),
+            addEmotionButton.heightAnchor.constraint(equalToConstant: 36),
+            
+            emotionStackView.topAnchor.constraint(equalTo: emotionInputField.bottomAnchor, constant: 10),
             emotionStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             emotionStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            emotionStackView.heightAnchor.constraint(equalToConstant: 35),
             
             // 3. Photo Attachment
             photoSectionLabel.topAnchor.constraint(equalTo: emotionStackView.bottomAnchor, constant: 30),
@@ -326,6 +371,30 @@ class WriteViewController: UIViewController {
             saveButton.heightAnchor.constraint(equalToConstant: 50),
             saveButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -40)
         ])
+        
+        setupExampleKeywordButtons()
+    }
+    
+    private func setupExampleKeywordButtons() {
+        exampleStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        for keyword in exampleKeywords {
+            let btn = UIButton(type: .system)
+            btn.setTitle(keyword, for: .normal)
+            btn.titleLabel?.font = .systemFont(ofSize: 14)
+            btn.backgroundColor = .systemGray5
+            btn.setTitleColor(.label, for: .normal)
+            btn.layer.cornerRadius = 15
+            btn.contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
+            btn.addTarget(self, action: #selector(exampleKeywordTapped(_:)), for: .touchUpInside)
+            exampleStackView.addArrangedSubview(btn)
+        }
+    }
+    
+    @objc private func exampleKeywordTapped(_ sender: UIButton) {
+        guard let keyword = sender.title(for: .normal) else { return }
+        guard !emotionTags.contains(keyword) else { return }
+        emotionTags.append(keyword)
+        updateEmotionTagsUI()
     }
     
     @objc func saveToDB() {
@@ -348,12 +417,17 @@ class WriteViewController: UIViewController {
                         "diaryTitle": self.diaryTitleField.text ?? "",
                         "diaryContent": self.diaryTextView.text ?? "",
                         "quote": self.quoteTextView.text ?? "",
-                        "privacy": self.privacyControl.selectedSegmentIndex
+                        "privacy": self.privacyControl.selectedSegmentIndex,
+                        "tag": self.emotionTags
                     ]) { error in
                         if let error = error {
                             print("저장 실패: \(error.localizedDescription)")
                         } else {
                             print("저장 성공")
+                            
+                            DispatchQueue.main.async {
+                                self.navigationController?.popViewController(animated: true)
+                            }
                         }
                     }
                 
@@ -361,6 +435,84 @@ class WriteViewController: UIViewController {
                 print("닉네임 가져오기 실패: \(error?.localizedDescription ?? "알 수 없는 오류")")
             }
         }
+        
+    }
+    
+    @objc private func addEmotionTag() {
+        guard let text = emotionInputField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else { return }
+        guard !emotionTags.contains(text) else { emotionInputField.text = ""; return }
+        emotionTags.append(text)
+        emotionInputField.text = ""
+        updateEmotionTagsUI()
+    }
+    
+    private func updateEmotionTagsUI() {
+        // 기존 태그 뷰 모두 제거
+        emotionStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        // 한 줄에 최대 3개씩 배치
+        var rowStack: UIStackView = makeRowStack()
+        var count = 0
+        for tag in emotionTags {
+            let tagView = makeTagView(for: tag)
+            rowStack.addArrangedSubview(tagView)
+            count += 1
+            if count % 3 == 0 {
+                emotionStackView.addArrangedSubview(rowStack)
+                rowStack = makeRowStack()
+            }
+        }
+        if rowStack.arrangedSubviews.count > 0 {
+            emotionStackView.addArrangedSubview(rowStack)
+        }
+    }
+    
+    private func makeRowStack() -> UIStackView {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 8
+        return stack
+    }
+    
+    private func makeTagView(for tag: String) -> UIView {
+        let container = UIView()
+        container.backgroundColor = UIColor.systemGray5
+        container.layer.cornerRadius = 15
+        container.clipsToBounds = true
+
+        let label = UILabel()
+        label.text = tag
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .label
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        let removeButton = UIButton(type: .system)
+        removeButton.setTitle("x", for: .normal)
+        removeButton.setTitleColor(.secondaryLabel, for: .normal)
+        removeButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .bold)
+        removeButton.addTarget(self, action: #selector(removeEmotionTag(_:)), for: .touchUpInside)
+        removeButton.translatesAutoresizingMaskIntoConstraints = false
+        removeButton.tag = emotionTags.firstIndex(of: tag) ?? 0
+
+        container.addSubview(label)
+        container.addSubview(removeButton)
+
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
+            label.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            removeButton.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 4),
+            removeButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -6),
+            removeButton.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            container.heightAnchor.constraint(equalToConstant: 30)
+        ])
+
+        return container
+    }
+    
+    @objc private func removeEmotionTag(_ sender: UIButton) {
+        let index = sender.tag
+        guard index < emotionTags.count else { return }
+        emotionTags.remove(at: index)
+        updateEmotionTagsUI()
     }
 }
 
