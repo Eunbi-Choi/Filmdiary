@@ -23,7 +23,6 @@ class DiaryDetailViewController: UIViewController {
     private let diaryContentLabel = UILabel()
     private let quoteLabel = UILabel()
     
-    // 좋아요/댓글 관련
     private let likeButton = UIButton(type: .system)
     private let likeCountLabel = UILabel()
     private let commentTableView = UITableView()
@@ -71,7 +70,7 @@ class DiaryDetailViewController: UIViewController {
     private func setupUI() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        // 카드 느낌의 배경 뷰
+
         let cardView = UIView()
         cardView.backgroundColor = ColorTheme.cardBackground
         cardView.layer.cornerRadius = 20
@@ -81,14 +80,14 @@ class DiaryDetailViewController: UIViewController {
         cardView.layer.shadowRadius = 8
         cardView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(cardView)
-        // 기록 섹션 타이틀/구분선 추가
+
         contentView.addSubview(dividerView)
         cardView.addSubview(authorLabel)
         [posterImageView, titleLabel, nicknameLabel, dateLabel, tagStackView, diaryTitleLabel, diaryContentLabel, quoteLabel].forEach {
             cardView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        // 댓글 섹션 타이틀 추가
+
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         dividerView.translatesAutoresizingMaskIntoConstraints = false
@@ -187,7 +186,6 @@ class DiaryDetailViewController: UIViewController {
     }
     
     private func setupLikeAndCommentUI() {
-        // 좋아요 버튼/카운트
         likeButton.setTitle("♡", for: .normal)
         likeButton.titleLabel?.font = .systemFont(ofSize: 28)
         likeButton.tintColor = ColorTheme.accent
@@ -206,7 +204,6 @@ class DiaryDetailViewController: UIViewController {
             likeCountLabel.centerXAnchor.constraint(equalTo: likeButton.centerXAnchor)
         ])
 
-        // 댓글 입력/목록
         commentInputField.placeholder = "댓글을 입력하세요"
         commentInputField.borderStyle = .roundedRect
         commentInputField.backgroundColor = ColorTheme.cardBackground
@@ -255,13 +252,10 @@ class DiaryDetailViewController: UIViewController {
     }
     
     private func fetchLikeAndCommentData() {
-        // Firestore 경로 세팅
-        // diaryOwnerUid, diaryId 추출 (diaryId는 movieTitle+viewingDate 등으로 생성했다고 가정)
-        diaryOwnerUid = diary.nickname // 실제로는 uid여야 함. 닉네임이 아니라 diary 객체에 ownerUid가 필요함.
-        diaryId = diary.movieTitle // 실제로는 고유 id가 필요함. 임시로 movieTitle 사용
+        diaryOwnerUid = diary.nickname
+        diaryId = diary.movieTitle
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         let db = Firestore.firestore()
-        // 좋아요 카운트 및 내 좋아요 여부
         let likesRef = db.collection("filmDiaries").document(diaryOwnerUid).collection("myDiary").document(diaryId).collection("likes")
         likesRef.getDocuments { [weak self] (snapshot, error) in
             guard let self = self else { return }
@@ -270,7 +264,7 @@ class DiaryDetailViewController: UIViewController {
                 self.isLiked = docs.contains(where: { $0.documentID == currentUid })
             }
         }
-        // 댓글 목록
+
         let commentsRef = db.collection("filmDiaries").document(diaryOwnerUid).collection("myDiary").document(diaryId).collection("comments").order(by: "date", descending: false)
         commentsRef.getDocuments { [weak self] (snapshot, error) in
             guard let self = self else { return }
@@ -320,7 +314,6 @@ class DiaryDetailViewController: UIViewController {
     }
 }
 
-// 댓글 모델 및 셀
 struct Comment {
     let nickname: String
     let text: String

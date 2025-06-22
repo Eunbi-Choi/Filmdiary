@@ -38,7 +38,6 @@
                         <segue destination="nwr-ec-EIA" kind="relationship" relationship="viewControllers" id="sXs-gg-SyY"/>
                         <segue destination="bEB-4z-5Sz" kind="relationship" relationship="viewControllers" id="1eX-yw-ypf"/>
                         <segue destination="hIF-Nd-2qz" kind="relationship" relationship="viewControllers" id="vsS-bg-4wu"/>
-                        <segue destination="tcr-Tr-JU2" kind="relationship" relationship="viewControllers" id="v0r-nA-EYG"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QsW-um-HMg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -76,22 +75,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IAe-yS-hA7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2040" y="1380"/>
-        </scene>
-        <!--Mypage View Controller-->
-        <scene sceneID="9sY-in-dJh">
-            <objects>
-                <viewController id="sOS-rM-axk" customClass="MypageViewController" customModule="FinalProject" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="we3-dL-6th">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="c8f-kd-bfJ"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="kqy-N1-MTx"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sal-wF-bUo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2040" y="2089"/>
         </scene>
         <!--영화 검색-->
         <scene sceneID="SRT-jL-IcX">
@@ -163,25 +146,6 @@
             </objects>
             <point key="canvasLocation" x="244" y="2088"/>
         </scene>
-        <!--마이페이지-->
-        <scene sceneID="g0I-Bw-v4U">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tcr-Tr-JU2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="마이페이지" image="person.circle" catalog="system" id="LyF-Pc-bTF"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JaE-eu-b0H">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="sOS-rM-axk" kind="relationship" relationship="rootViewController" id="jVU-e1-Hq8"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sNY-rS-EK9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1114" y="2089"/>
-        </scene>
         <!--Login View Controller-->
         <scene sceneID="GR4-lS-c3n">
             <objects>
@@ -220,7 +184,6 @@
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="person.2" catalog="system" width="128" height="87"/>
-        <image name="person.circle" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

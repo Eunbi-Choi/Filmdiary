@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		939FE0952E07EC38008D6CEC /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 939FE0942E07EC38008D6CEC /* FSCalendar */; };
 		93A2F5E92E030A3400DD9619 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5E82E030A3400DD9619 /* SearchViewController.swift */; };
 		93A2F5EB2E03137D00DD9619 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5EA2E03137D00DD9619 /* MovieDetailViewController.swift */; };
 		93A2F5ED2E03138700DD9619 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5EC2E03138700DD9619 /* MovieTableViewCell.swift */; };
 		93A2F5EF2E03345A00DD9619 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5EE2E03345A00DD9619 /* ColorTheme.swift */; };
 		93A2F5F12E0337C000DD9619 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5F02E0337C000DD9619 /* FeedViewController.swift */; };
-		93A2F5F32E033A1500DD9619 /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2F5F22E033A1500DD9619 /* MypageViewController.swift */; };
 		93A729412E06FD0E00EFA39A /* JTAppleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 93A729402E06FD0E00EFA39A /* JTAppleCalendar */; };
 		93AECC472E0693B4007E3DC6 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AECC462E0693B4007E3DC6 /* WriteViewController.swift */; };
 		93AECC492E06BDA0007E3DC6 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AECC482E06BDA0007E3DC6 /* DiaryDetailViewController.swift */; };
@@ -42,7 +42,6 @@
 		93A2F5EC2E03138700DD9619 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		93A2F5EE2E03345A00DD9619 /* ColorTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		93A2F5F02E0337C000DD9619 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
-		93A2F5F22E033A1500DD9619 /* MypageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewController.swift; sourceTree = "<group>"; };
 		93AECC462E0693B4007E3DC6 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		93AECC482E06BDA0007E3DC6 /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		93AF400C2E03FC8900143B98 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -69,6 +68,7 @@
 				93A729412E06FD0E00EFA39A /* JTAppleCalendar in Frameworks */,
 				93AF401B2E03FE7900143B98 /* FirebaseAnalytics in Frameworks */,
 				93AF401D2E03FE7900143B98 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				939FE0952E07EC38008D6CEC /* FSCalendar in Frameworks */,
 				93AF40232E03FE7900143B98 /* FirebaseAppCheck in Frameworks */,
 				93AF40212E03FE7900143B98 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				93AF40292E0400F000143B98 /* FirebaseAuth in Frameworks */,
@@ -122,7 +122,6 @@
 				93A2F5EC2E03138700DD9619 /* MovieTableViewCell.swift */,
 				93A2F5EE2E03345A00DD9619 /* ColorTheme.swift */,
 				93A2F5F02E0337C000DD9619 /* FeedViewController.swift */,
-				93A2F5F22E033A1500DD9619 /* MypageViewController.swift */,
 				93AF40262E03FFA900143B98 /* LoginViewController.swift */,
 				93AF402A2E04042E00143B98 /* SignupViewController.swift */,
 				93AECC462E0693B4007E3DC6 /* WriteViewController.swift */,
@@ -155,6 +154,7 @@
 				93AF40242E03FE7900143B98 /* FirebaseFirestore */,
 				93AF40282E0400F000143B98 /* FirebaseAuth */,
 				93A729402E06FD0E00EFA39A /* JTAppleCalendar */,
+				939FE0942E07EC38008D6CEC /* FSCalendar */,
 			);
 			productName = FinalProject;
 			productReference = 93BB4D092E01EC9F000D42C2 /* FinalProject.app */;
@@ -187,6 +187,7 @@
 			packageReferences = (
 				93AF40192E03FE7900143B98 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				93A7293F2E06FD0E00EFA39A /* XCRemoteSwiftPackageReference "JTAppleCalendar" */,
+				939FE0932E07EC38008D6CEC /* XCRemoteSwiftPackageReference "FSCalendar" */,
 			);
 			productRefGroup = 93BB4D0A2E01EC9F000D42C2 /* Products */;
 			projectDirPath = "";
@@ -230,7 +231,6 @@
 				93AF402B2E04042E00143B98 /* SignupViewController.swift in Sources */,
 				93A2F5ED2E03138700DD9619 /* MovieTableViewCell.swift in Sources */,
 				93B8F8CC2E029955002AFB58 /* Movie.swift in Sources */,
-				93A2F5F32E033A1500DD9619 /* MypageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,6 +453,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		939FE0932E07EC38008D6CEC /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.4;
+			};
+		};
 		93A7293F2E06FD0E00EFA39A /* XCRemoteSwiftPackageReference "JTAppleCalendar" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/patchthecode/JTAppleCalendar";
@@ -472,6 +480,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		939FE0942E07EC38008D6CEC /* FSCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 939FE0932E07EC38008D6CEC /* XCRemoteSwiftPackageReference "FSCalendar" */;
+			productName = FSCalendar;
+		};
 		93A729402E06FD0E00EFA39A /* JTAppleCalendar */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 93A7293F2E06FD0E00EFA39A /* XCRemoteSwiftPackageReference "JTAppleCalendar" */;

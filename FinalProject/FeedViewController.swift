@@ -112,7 +112,7 @@ class FeedViewController: UIViewController {
                 
                 
             } else {
-                print("❌ 문서를 찾을 수 없거나 오류 발생: \(error?.localizedDescription ?? "알 수 없는 오류")")
+                print("문서를 찾을 수 없거나 오류 발생: \(error?.localizedDescription ?? "알 수 없는 오류")")
             }
         }
     }
@@ -345,7 +345,6 @@ class DiaryCell: UITableViewCell {
     }
 }
 
-// 커스텀 패딩 라벨
 class PaddingLabel: UILabel {
     var insets = UIEdgeInsets(top: 2, left: 8, bottom: 2, right: 8)
     override func drawText(in rect: CGRect) {

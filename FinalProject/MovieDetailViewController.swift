@@ -249,7 +249,6 @@ class MovieDetailViewController: UIViewController {
         
         let alert = UIAlertController(title: nil, message: "위시리스트에 추가되었습니다.", preferredStyle: .alert)
 
-        // 1~2초 뒤에 자동으로 닫히게
         self.present(alert, animated: true)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {

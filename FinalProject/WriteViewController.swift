@@ -10,28 +10,31 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class WriteViewController: UIViewController {
-    
     var movie: Movie?
     
     // MARK: - UI Components
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .systemBackground
+        scrollView.backgroundColor = ColorTheme.background
         return scrollView
     }()
     
     private let contentView: UIView = {
         let view = UIView()
+        view.backgroundColor = ColorTheme.background
         return view
     }()
-    
-    // 1. Movie Info Card
+
     private let movieInfoCardView: UIView = {
         let view = UIView()
-        view.backgroundColor = .secondarySystemBackground
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
+        view.backgroundColor = ColorTheme.cardBackground
+        view.layer.cornerRadius = 16
+        view.layer.shadowColor = ColorTheme.text.cgColor
+        view.layer.shadowOpacity = 0.06
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowRadius = 8
+        view.clipsToBounds = false
         return view
     }()
     
@@ -39,14 +42,15 @@ class WriteViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerRadius = 10
+        imageView.backgroundColor = ColorTheme.main.withAlphaComponent(0.15)
         return imageView
     }()
     
     private let weatherIconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "cloud.sun.fill")
-        imageView.tintColor = .white
+        imageView.tintColor = ColorTheme.accent
         return imageView
     }()
     
@@ -54,21 +58,22 @@ class WriteViewController: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.numberOfLines = 2
+        label.textColor = ColorTheme.text
         return label
     }()
     
     private let viewingDateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.textColor = .secondaryLabel
+        label.textColor = ColorTheme.secondaryText
         return label
     }()
     
-    // 2. Emotion Tags
     private let emotionSectionLabel: UILabel = {
         let label = UILabel()
         label.text = "감상 키워드"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.textColor = ColorTheme.text
         return label
     }()
     
@@ -85,6 +90,11 @@ class WriteViewController: UIViewController {
         tf.placeholder = "감정 키워드 입력"
         tf.font = .systemFont(ofSize: 15)
         tf.borderStyle = .roundedRect
+        tf.backgroundColor = ColorTheme.cardBackground
+        tf.textColor = ColorTheme.text
+        tf.layer.borderColor = ColorTheme.secondaryText.withAlphaComponent(0.2).cgColor
+        tf.layer.borderWidth = 1
+        tf.layer.cornerRadius = 8
         return tf
     }()
     
@@ -92,8 +102,8 @@ class WriteViewController: UIViewController {
         let btn = UIButton(type: .system)
         btn.setTitle("추가", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
-        btn.backgroundColor = .systemGray5
-        btn.setTitleColor(.label, for: .normal)
+        btn.backgroundColor = ColorTheme.main
+        btn.setTitleColor(.white, for: .normal)
         btn.layer.cornerRadius = 8
         return btn
     }()
@@ -108,82 +118,85 @@ class WriteViewController: UIViewController {
     
     private var emotionTags: [String] = []
     
-    // 3. Photo Attachment
-    private let photoSectionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "📸 오늘의 사진"
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
-        return label
-    }()
-    
-    private let addPhotoButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("사진 추가하기", for: .normal)
-        button.setImage(UIImage(systemName: "camera"), for: .normal)
-        button.tintColor = .label
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray3.cgColor
-        button.layer.cornerRadius = 8
-        return button
-    }()
-    
     private let attachedImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
-        imageView.isHidden = true // Initially hidden
+        imageView.backgroundColor = ColorTheme.cardBackground
+        imageView.isHidden = true
         return imageView
     }()
     
-    // 4. Diary Entry
     private let diarySectionLabel: UILabel = {
         let label = UILabel()
         label.text = "📖 텍스트 일기"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.textColor = ColorTheme.text
         return label
     }()
     
     private let diaryTitleField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "이 영화가 내게 남긴 말"
+        textField.placeholder = "제목"
         textField.font = .systemFont(ofSize: 16)
         textField.borderStyle = .roundedRect
+        textField.backgroundColor = ColorTheme.cardBackground
+        textField.textColor = ColorTheme.text
+        textField.layer.borderColor = ColorTheme.secondaryText.withAlphaComponent(0.2).cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 8
         return textField
     }()
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.font = .systemFont(ofSize: 16)
-        textView.layer.borderColor = UIColor.systemGray3.cgColor
+        textView.layer.borderColor = ColorTheme.secondaryText.withAlphaComponent(0.2).cgColor
         textView.layer.borderWidth = 1
         textView.layer.cornerRadius = 8
-        textView.text = "이 장면에서 왜 눈물이 났을까?"
+        textView.backgroundColor = ColorTheme.cardBackground
+        textView.textColor = ColorTheme.text
         textView.textColor = .secondaryLabel
         return textView
     }()
     
-    // 5. Quote Memo
     private let quoteSectionLabel: UILabel = {
         let label = UILabel()
         label.text = "📝 명대사 or 장면 메모"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.textColor = ColorTheme.text
         return label
     }()
     
     private let quoteTextView: UITextView = {
         let textView = UITextView()
         textView.font = .systemFont(ofSize: 15, weight: .light)
-        textView.layer.borderColor = UIColor.systemGray4.cgColor
+        textView.layer.borderColor = ColorTheme.secondaryText.withAlphaComponent(0.2).cgColor
         textView.layer.borderWidth = 1
         textView.layer.cornerRadius = 8
+        textView.backgroundColor = ColorTheme.cardBackground
+        textView.textColor = ColorTheme.text
         return textView
     }()
     
-    // 6. Controls
     private let privacyControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["나만 보기", "전체 공개"])
         control.selectedSegmentIndex = 0
+        control.backgroundColor = ColorTheme.cardBackground
+        control.selectedSegmentTintColor = ColorTheme.main
+        let normalAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: ColorTheme.secondaryText,
+            .font: UIFont.systemFont(ofSize: 16, weight: .medium)
+        ]
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: ColorTheme.text,
+            .font: UIFont.systemFont(ofSize: 17, weight: .bold)
+        ]
+        control.setTitleTextAttributes(normalAttributes, for: .normal)
+        control.setTitleTextAttributes(selectedAttributes, for: .selected)
+        control.layer.cornerRadius = 16
+        control.clipsToBounds = true
         return control
     }()
     
@@ -191,7 +204,7 @@ class WriteViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("저장", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = ColorTheme.main
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(saveToDB), for: .touchUpInside)
@@ -203,7 +216,7 @@ class WriteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = ColorTheme.background
         title = "감상 기록하기"
         
         setupUI()
@@ -251,7 +264,7 @@ class WriteViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        [movieInfoCardView, emotionSectionLabel, exampleStackView, emotionInputField, addEmotionButton, emotionStackView, photoSectionLabel, addPhotoButton, attachedImageView, diarySectionLabel, diaryTitleField, diaryTextView, quoteSectionLabel, quoteTextView, privacyControl, saveButton].forEach {
+        [movieInfoCardView, emotionSectionLabel, exampleStackView, emotionInputField, addEmotionButton, emotionStackView, attachedImageView, diarySectionLabel, diaryTitleField, diaryTextView, quoteSectionLabel, quoteTextView, privacyControl, saveButton].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -324,16 +337,7 @@ class WriteViewController: UIViewController {
             emotionStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             emotionStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
-            // 3. Photo Attachment
-            photoSectionLabel.topAnchor.constraint(equalTo: emotionStackView.bottomAnchor, constant: 30),
-            photoSectionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            
-            addPhotoButton.topAnchor.constraint(equalTo: photoSectionLabel.bottomAnchor, constant: 12),
-            addPhotoButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            addPhotoButton.heightAnchor.constraint(equalToConstant: 50),
-            addPhotoButton.widthAnchor.constraint(equalToConstant: 150),
-            
-            attachedImageView.topAnchor.constraint(equalTo: addPhotoButton.bottomAnchor, constant: 12),
+            attachedImageView.topAnchor.constraint(equalTo: emotionStackView.bottomAnchor, constant: 12),
             attachedImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             attachedImageView.widthAnchor.constraint(equalToConstant: 100),
             attachedImageView.heightAnchor.constraint(equalToConstant: 100),
@@ -381,10 +385,11 @@ class WriteViewController: UIViewController {
             let btn = UIButton(type: .system)
             btn.setTitle(keyword, for: .normal)
             btn.titleLabel?.font = .systemFont(ofSize: 14)
-            btn.backgroundColor = .systemGray5
-            btn.setTitleColor(.label, for: .normal)
+            btn.backgroundColor = ColorTheme.cardBackground
+            btn.setTitleColor(ColorTheme.text, for: .normal)
             btn.layer.cornerRadius = 15
             btn.contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
+            btn.layer.borderColor = UIColor(red: 255/255, green: 188/255, blue: 188/255, alpha: 1.0).cgColor
             btn.addTarget(self, action: #selector(exampleKeywordTapped(_:)), for: .touchUpInside)
             exampleStackView.addArrangedSubview(btn)
         }
@@ -407,28 +412,36 @@ class WriteViewController: UIViewController {
             if let document = document, document.exists {
                 let nickname = document.get("nickname") as? String ?? ""
                 
+                let movieTitle = self.movieTitleLabel.text ?? ""
+                    let viewingDate = self.viewingDateLabel.text ?? ""
+                    let posterPath = self.movie?.poster_path ?? ""
+                    let diaryTitle = self.diaryTitleField.text ?? ""
+                    let diaryContent = self.diaryTextView.text ?? ""
+                    let quote = self.quoteTextView.text ?? ""
+                    let privacy = self.privacyControl.selectedSegmentIndex
+                    let tags = self.emotionTags
+
+                    let diaryData: [String: Any] = [
+                        "nickname": nickname,
+                        "movieTitle": movieTitle,
+                        "viewingDate": viewingDate,
+                        "posterPath": posterPath,
+                        "diaryTitle": diaryTitle,
+                        "diaryContent": diaryContent,
+                        "quote": quote,
+                        "privacy": privacy,
+                        "tag": tags
+                    ]
+                
                 db.collection("filmDiaries").document(nickname)
                     .collection("myDiary").document(self.movieTitleLabel.text ?? "")
-                    .setData([
-                        "nickname": nickname,
-                        "movieTitle": self.movieTitleLabel.text ?? "",
-                        "viewingDate": self.viewingDateLabel.text ?? "",
-                        "posterPath": self.movie?.poster_path ?? "",
-                        "diaryTitle": self.diaryTitleField.text ?? "",
-                        "diaryContent": self.diaryTextView.text ?? "",
-                        "quote": self.quoteTextView.text ?? "",
-                        "privacy": self.privacyControl.selectedSegmentIndex,
-                        "tag": self.emotionTags
-                    ]) { error in
+                    .setData(diaryData) { error in
                         if let error = error {
                             print("저장 실패: \(error.localizedDescription)")
                         } else {
-                            print("저장 성공")
-                            
                             DispatchQueue.main.async {
                                 self.navigationController?.popViewController(animated: true)
                             }
-                            
                             NotificationCenter.default.post(name: NSNotification.Name("FeedUpdated"), object: nil)
                         }
                     }
@@ -477,19 +490,19 @@ class WriteViewController: UIViewController {
     
     private func makeTagView(for tag: String) -> UIView {
         let container = UIView()
-        container.backgroundColor = UIColor.systemGray5
+        container.backgroundColor = ColorTheme.cardBackground
         container.layer.cornerRadius = 15
         container.clipsToBounds = true
 
         let label = UILabel()
         label.text = tag
         label.font = .systemFont(ofSize: 14)
-        label.textColor = .label
+        label.textColor = ColorTheme.text
         label.translatesAutoresizingMaskIntoConstraints = false
 
         let removeButton = UIButton(type: .system)
         removeButton.setTitle("x", for: .normal)
-        removeButton.setTitleColor(.secondaryLabel, for: .normal)
+        removeButton.setTitleColor(ColorTheme.secondaryText, for: .normal)
         removeButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .bold)
         removeButton.addTarget(self, action: #selector(removeEmotionTag(_:)), for: .touchUpInside)
         removeButton.translatesAutoresizingMaskIntoConstraints = false

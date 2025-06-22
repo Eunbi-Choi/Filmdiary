@@ -115,7 +115,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     @objc private func reloadWishList() {
-        // wishListCollectionView.reloadData() 대신 Firestore에서 최신 데이터 다시 불러오기
         getWishListMovies()
     }
     
